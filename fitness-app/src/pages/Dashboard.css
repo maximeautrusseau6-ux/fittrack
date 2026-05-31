@@ -1,0 +1,123 @@
+.dashboard { padding: 32px; max-width: 900px; background: #10101a; }
+
+.page-title {
+  font-family: var(--font-cond);
+  font-size: 32px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  margin-bottom: 28px;
+}
+
+.dashboard-date {
+  color: var(--text-muted);
+  font-size: 13px;
+  margin-bottom: 6px;
+  text-transform: capitalize;
+}
+
+.stats-grid,
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.dash-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+}
+
+.dash-small {
+  min-height: 120px;
+}
+
+.stat-label {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-bottom: 8px;
+}
+
+.stat-value {
+  font-family: var(--font-cond);
+  font-size: 36px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.dash-card {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: var(--radius);
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.dash-card h2,
+.dash-card h3 {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 16px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-size: 12px;
+}
+
+.objective-row,
+.macro-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  color: var(--text);
+  margin-bottom: 12px;
+}
+
+.objective-row span:last-child,
+.macro-row span:last-child {
+  color: var(--text);
+}
+
+.last-session-date,
+.last-session-name {
+  font-size: 14px;
+  color: var(--text);
+  margin-bottom: 6px;
+}
+
+.last-session-empty {
+  color: var(--text-muted);
+  font-size: 14px;
+}
+
+.dash-objectives {
+  grid-column: 1 / -1;
+}
+
+.dash-last-session {
+  grid-column: 1 / -1;
+}
+
+.macro-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  color: var(--text);
+}
+
+.macro-row span:last-child {
+  color: var(--text-muted);
+}
+
+.empty-hint {
+  background: rgba(108,99,255,0.08);
+  border: 1px dashed rgba(108,99,255,0.3);
+  border-radius: var(--radius);
+  padding: 20px;
+  color: var(--text-muted);
+  font-size: 14px;
+}
+
+.empty-hint strong { color: var(--accent); }
