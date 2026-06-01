@@ -1,0 +1,78 @@
+.sidebar {
+  width: 280px;
+  min-height: 100vh;
+  padding: 32px 24px;
+  background: radial-gradient(circle at top left, rgba(108, 99, 255, 0.22), transparent 34%),
+    linear-gradient(180deg, #04060f 0%, #0a0d16 100%);
+  border-right: 1px solid rgba(255, 255, 255, 0.06);
+  color: #f8fafc;
+  display: flex;
+  flex-direction: column;
+  gap: 42px;
+}
+
+.sidebar-card {
+  position: relative;
+  padding-top: 24px;
+}
+
+.app-chip {
+  position: relative;
+  display: inline-flex;
+  padding: 18px 22px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 28px;
+  backdrop-filter: blur(12px);
+  font-size: 0.95rem;
+  font-weight: 700;
+  line-height: 1.35;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.18);
+  transform: translateX(-10px);
+}
+
+.sidebar-nav {
+  display: grid;
+  gap: 10px;
+}
+
+.nav-button {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 18px;
+  color: inherit;
+  padding: 16px 18px;
+  font-size: 0.98rem;
+  text-align: left;
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.nav-button:hover {
+  background: rgba(108, 99, 255, 0.16);
+  transform: translateX(4px);
+}
+
+.nav-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  background: #8b86ff;
+}
+
+@media (max-width: 900px) {
+  .sidebar {
+    width: 100%;
+    min-height: auto;
+    border-right: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    padding: 22px;
+  }
+
+  .app-chip {
+    transform: translateX(0);
+  }
+}
