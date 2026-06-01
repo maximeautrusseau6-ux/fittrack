@@ -35,10 +35,10 @@
   justify-content: center;
   gap: 6px;
   padding: 12px 8px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.18);
   border-radius: 20px;
-  color: #eef2ff;
+  color: #cfd4ff;
   font-size: 0.8rem;
   min-height: 70px;
   transition: transform 0.18s ease, background 0.18s ease, border-color 0.18s ease;
@@ -46,13 +46,17 @@
 
 .bottom-nav-button:hover,
 .bottom-nav-button:focus-visible {
-  background: rgba(79, 196, 255, 0.14);
-  border-color: rgba(79, 196, 255, 0.22);
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.28);
   transform: translateY(-1px);
 }
 
 .nav-icon {
-  font-size: 1.25rem;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  background: transparent;
 }
 
 .nav-label {
