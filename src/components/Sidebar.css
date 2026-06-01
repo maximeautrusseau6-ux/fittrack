@@ -51,6 +51,11 @@
   transform: translateY(-1px);
 }
 
+.bottom-nav-button--active {
+  background: rgba(111, 125, 255, 0.14);
+  border-color: rgba(111, 125, 255, 0.3);
+}
+
 .nav-icon-svg {
   width: 20px;
   height: 20px;

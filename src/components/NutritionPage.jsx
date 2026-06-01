@@ -5,7 +5,6 @@ import MacroCard from './MacroCard.jsx';
 import MealDrawer from './MealDrawer.jsx';
 import CreatineTracker from './CreatineTracker.jsx';
 import GoalsModal from './GoalsModal.jsx';
-import BottomNav from './Sidebar.jsx';
 
 const STORAGE_KEY_DATA = 'fittrack_nutrition_data';
 const STORAGE_KEY_GOALS = 'fittrack_nutrition_goals';
@@ -63,12 +62,18 @@ function clampPercent(value) {
   return Math.max(0, Math.min(100, Math.round(value)));
 }
 
-export default function NutritionPage() {
+export default function NutritionPage({ setNavHidden }) {
   const [selectedDate, setSelectedDate] = useState(getParisDate());
   const [nutritionData, setNutritionData] = useState({});
   const [goals, setGoals] = useState(defaultGoals);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [goalsOpen, setGoalsOpen] = useState(false);
+
+  useEffect(() => {
+    if (setNavHidden) {
+      setNavHidden(drawerOpen || goalsOpen);
+    }
+  }, [drawerOpen, goalsOpen, setNavHidden]);
 
   useEffect(() => {
     const storedData = localStorage.getItem(STORAGE_KEY_DATA);
@@ -293,7 +298,6 @@ export default function NutritionPage() {
       />
 
       <GoalsModal open={goalsOpen} goals={goals} onSave={saveGoals} onClose={() => setGoalsOpen(false)} />
-      <BottomNav hidden={drawerOpen || goalsOpen} />
     </div>
   );
 }

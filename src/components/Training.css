@@ -1,0 +1,403 @@
+.training-page {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  padding-bottom: 110px;
+}
+
+.training-topbar,
+.session-detail-header,
+.session-detail-actions,
+.drawer-header,
+.drawer-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.training-label,
+.drawer-label,
+.session-badge {
+  display: inline-block;
+  margin-bottom: 8px;
+  color: #9dacd8;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.training-topbar {
+  padding: 18px 0;
+}
+
+.training-subtitle {
+  margin-top: 8px;
+  color: #d0d6ff;
+  opacity: 0.9;
+}
+
+.primary-button,
+.secondary-button,
+.icon-button {
+  border: none;
+  border-radius: 16px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.primary-button {
+  background: linear-gradient(135deg, #6f7dff, #3858f2);
+  color: #fff;
+  padding: 14px 20px;
+}
+
+.secondary-button {
+  background: rgba(255, 255, 255, 0.05);
+  color: #e5e8ff;
+  padding: 12px 18px;
+}
+
+.icon-button {
+  background: transparent;
+  color: #cbd2ff;
+  font-size: 0.85rem;
+  padding: 8px 12px;
+}
+
+.training-stats {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.stat-card {
+  padding: 16px;
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.stat-card span {
+  display: block;
+  color: #b7c0ff;
+  margin-bottom: 10px;
+}
+
+.stat-card strong {
+  font-size: 1.3rem;
+}
+
+.session-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.session-card {
+  padding: 18px;
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  cursor: pointer;
+  transition: transform 0.18s ease, border-color 0.18s ease;
+}
+
+.session-card:hover,
+.session-card--selected {
+  transform: translateY(-2px);
+  border-color: rgba(111, 125, 255, 0.42);
+}
+
+.session-card-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.session-card-label {
+  color: #9dacd8;
+  font-size: 0.8rem;
+  margin-bottom: 6px;
+}
+
+.session-card-actions {
+  display: grid;
+  gap: 8px;
+}
+
+.session-card-meter {
+  height: 8px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 999px;
+  overflow: hidden;
+  margin-bottom: 10px;
+}
+
+.session-card-meter span {
+  display: block;
+  height: 100%;
+  background: linear-gradient(135deg, #728cff, #4b64ff);
+}
+
+.session-card-progress {
+  font-size: 0.9rem;
+  color: #b7c0ff;
+}
+
+.empty-state-panel {
+  padding: 20px;
+  border-radius: 22px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.03);
+  color: #c7d0ff;
+}
+
+.session-detail-panel {
+  padding: 18px;
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.session-detail-header {
+  align-items: flex-start;
+}
+
+.session-detail-header h2 {
+  margin: 8px 0 4px;
+}
+
+.session-badge {
+  background: rgba(111, 125, 255, 0.12);
+  color: #7c8ce4;
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-size: 0.75rem;
+}
+
+.session-progress-row {
+  display: grid;
+  gap: 10px;
+}
+
+.progress-meter {
+  position: relative;
+  height: 10px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.progress-meter span {
+  display: block;
+  height: 100%;
+  background: linear-gradient(135deg, #6f7dff, #3848f2);
+}
+
+.session-progress-text {
+  display: flex;
+  justify-content: space-between;
+  color: #d0d6ff;
+  font-size: 0.95rem;
+}
+
+.session-detail-actions {
+  flex-wrap: wrap;
+}
+
+.exercise-list {
+  display: grid;
+  gap: 12px;
+}
+
+.exercise-card {
+  padding: 16px;
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.exercise-card-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.exercise-card h3 {
+  margin: 0;
+}
+
+.exercise-meta {
+  color: #b8c2ff;
+  font-size: 0.9rem;
+}
+
+.exercise-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.set-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 12px;
+  align-items: center;
+  padding: 12px 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.set-row:first-of-type {
+  border-top: none;
+}
+
+.set-info {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.set-info strong {
+  color: #e5e9ff;
+}
+
+.set-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.set-badge {
+  background: rgba(255, 255, 255, 0.05);
+  color: #9dacd8;
+  padding: 4px 8px;
+  border-radius: 999px;
+  font-size: 0.78rem;
+}
+
+.session-summary-card {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  padding: 16px;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 22px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.session-summary-card p {
+  color: #b7c0ff;
+  margin-bottom: 8px;
+  font-size: 0.85rem;
+}
+
+.session-summary-card strong {
+  font-size: 1.2rem;
+}
+
+.drawer-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  background: rgba(5, 8, 18, 0.8);
+  display: grid;
+  place-items: center;
+  padding: 18px;
+}
+
+.drawer-panel {
+  width: min(560px, 100%);
+  background: #07101f;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 28px;
+  padding: 24px;
+}
+
+.drawer-form {
+  display: grid;
+  gap: 18px;
+  margin-top: 18px;
+}
+
+.drawer-field {
+  display: grid;
+  gap: 8px;
+  color: #d3d9ff;
+}
+
+.drawer-field input {
+  width: 100%;
+  padding: 14px 16px;
+  border-radius: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.04);
+  color: #fff;
+}
+
+.drawer-actions {
+  justify-content: flex-end;
+}
+
+.rest-timer-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 220;
+  display: grid;
+  place-items: center;
+  background: rgba(2, 6, 18, 0.95);
+  padding: 18px;
+}
+
+.rest-timer-card {
+  width: min(420px, 100%);
+  padding: 24px;
+  border-radius: 24px;
+  background: #07101f;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  text-align: center;
+}
+
+.rest-timer-card h2 {
+  margin: 0.5rem 0 0.8rem;
+}
+
+@media (max-width: 820px) {
+  .session-grid,
+  .training-stats,
+  .session-summary-card {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 620px) {
+  .training-page {
+    gap: 14px;
+  }
+
+  .training-topbar,
+  .drawer-header,
+  .drawer-actions,
+  .session-detail-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .training-topbar button,
+  .session-detail-actions button,
+  .drawer-actions button {
+    width: 100%;
+  }
+
+  .session-card {
+    padding: 16px;
+  }
+
+  .session-grid {
+    grid-template-columns: 1fr;
+  }
+}

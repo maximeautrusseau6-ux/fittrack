@@ -2,7 +2,7 @@ import './Sidebar.css';
 
 const NAV = [
   { id: 'nutrition', label: 'Nutrition' },
-  { id: 'explore', label: 'Explorer' },
+  { id: 'training', label: 'Entraînement' },
   { id: 'library', label: 'Bibliothèque' },
   { id: 'settings', label: 'Préférences' }
 ];
@@ -12,16 +12,16 @@ function Icon({ type }) {
     case 'nutrition':
       return (
         <svg className="nav-icon-svg" viewBox="0 0 24 24" aria-hidden="true">
-          <circle cx="12" cy="12" r="6.2" />
-          <rect x="4.4" y="6" width="2" height="12" rx="1" />
-          <rect x="17.6" y="6" width="2" height="12" rx="1" />
+          <circle cx="12" cy="10" r="4" />
+          <path d="M7.5 17.5a4.5 4.5 0 0 1 9 0" />
         </svg>
       );
-    case 'explore':
+    case 'training':
       return (
         <svg className="nav-icon-svg" viewBox="0 0 24 24" aria-hidden="true">
-          <circle cx="11" cy="11" r="5.2" />
-          <line x1="15.5" y1="15.5" x2="20" y2="20" />
+          <path d="M3 11h2v2H3zM19 11h2v2h-2z" />
+          <path d="M5 10.5l2-1.5 3 1.5 3-1.5 3 1.5 2-1.5" />
+          <path d="M7 9v6M17 9v6" />
         </svg>
       );
     case 'library':
@@ -44,11 +44,16 @@ function Icon({ type }) {
   }
 }
 
-export default function Sidebar({ hidden }) {
+export default function Sidebar({ active, hidden, onSelect }) {
   return (
     <nav className={`bottom-nav${hidden ? ' bottom-nav--hidden' : ''}`} aria-hidden={hidden}>
       {NAV.map((item) => (
-        <button key={item.id} className="bottom-nav-button" type="button">
+        <button
+          key={item.id}
+          className={`bottom-nav-button${active === item.id ? ' bottom-nav-button--active' : ''}`}
+          type="button"
+          onClick={() => onSelect(item.id)}
+        >
           <Icon type={item.id} />
           <span className="nav-label">{item.label}</span>
         </button>
