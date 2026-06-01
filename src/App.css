@@ -10,7 +10,7 @@
   flex: 1;
   min-width: 0;
   padding: 32px;
-  padding-bottom: max(220px, calc(env(safe-area-inset-bottom) + 180px));
+  padding-bottom: max(260px, calc(env(safe-area-inset-bottom) + 220px));
   display: grid;
   place-items: start center;
 }
@@ -19,6 +19,13 @@
   width: min(1100px, 100%);
   display: grid;
   gap: 24px;
+  position: relative;
+}
+
+.nutrition-page::after {
+  content: '';
+  display: block;
+  height: 220px;
 }
 
 .nutrition-header,
@@ -465,6 +472,12 @@
   touch-action: manipulation;
 }
 
+.flame-counter {
+  margin: 10px 0 0;
+  color: #ffd6a7;
+  font-size: 0.95rem;
+}
+
 .drawer-form input:focus {
   outline: none;
   border-color: rgba(79, 196, 255, 0.5);
@@ -564,10 +577,51 @@
 
   .button {
     width: 100%;
+    padding: 12px 16px;
+    font-size: 0.95rem;
+    min-height: 46px;
+  }
+
+  .nutrition-header .button,
+  .nutrition-bottom-row .button {
+    max-width: 100%;
+  }
+
+  .section-label {
+    font-size: 0.75rem;
+    padding: 6px 12px;
+  }
+
+  .calendar-controls {
+    width: 100%;
+  }
+
+  .calendar-button {
+    width: 48px;
+    height: 48px;
+    font-size: 1.1rem;
   }
 
   .calendar-input {
     min-width: auto;
+    padding: 12px 14px;
+  }
+
+  .drawer-panel,
+  .modal-panel {
+    padding: 22px;
+  }
+
+  .drawer-form label {
+    font-size: 0.9rem;
+  }
+
+  .drawer-form input {
+    padding: 12px 14px;
+  }
+
+  .macro-grid {
+    grid-template-columns: 1fr;
   }
 
   .meal-item {

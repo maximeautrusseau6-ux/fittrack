@@ -108,6 +108,15 @@ export default function NutritionPage() {
     dayData.fat >= goals.fat &&
     dayData.creatineTaken;
 
+  const totalFlames = Object.values(nutritionData).filter(
+    (entry) =>
+      entry.calories >= goals.calories &&
+      entry.protein >= goals.protein &&
+      entry.carbs >= goals.carbs &&
+      entry.fat >= goals.fat &&
+      entry.creatineTaken
+  ).length;
+
   const caloriesProgress = clampPercent((dayData.calories / goals.calories) * 100);
   const proteinProgress = clampPercent((dayData.protein / goals.protein) * 100);
   const carbsProgress = clampPercent((dayData.carbs / goals.carbs) * 100);
@@ -170,6 +179,7 @@ export default function NutritionPage() {
         <div>
           <p className="section-label">Nutrition</p>
           <h1>Suivi journalier</h1>
+          <p className="flame-counter">🔥 {totalFlames} flamme{totalFlames > 1 ? 's' : ''} accumulée{totalFlames > 1 ? 's' : ''}</p>
         </div>
         <button className="button button--primary" onClick={() => setDrawerOpen(true)}>
           Ajouter un repas
