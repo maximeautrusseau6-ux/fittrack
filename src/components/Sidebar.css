@@ -65,13 +65,11 @@
 
 @media (max-width: 900px) {
   .sidebar {
-    width: 100%;
-    min-height: auto;
-    border-right: none;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-    padding: 16px 16px 12px;
-    flex-direction: column;
-    gap: 18px;
+    width: 120px;
+    min-height: 100vh;
+    border-right: 1px solid rgba(255, 255, 255, 0.06);
+    padding: 22px 12px;
+    gap: 24px;
   }
 
   .sidebar-card {
@@ -80,10 +78,10 @@
 
   .app-chip {
     width: 100%;
-    justify-content: center;
+    justify-content: flex-start;
     transform: translateX(0);
-    padding: 14px 16px;
-    font-size: 0.92rem;
+    padding: 14px 12px;
+    font-size: 0.88rem;
   }
 
   .sidebar-nav {
@@ -93,8 +91,8 @@
 
   .nav-button {
     width: 100%;
-    padding: 12px 14px;
-    font-size: 0.92rem;
+    padding: 12px 12px;
+    font-size: 0.88rem;
     border-radius: 16px;
     justify-content: flex-start;
   }
@@ -102,18 +100,19 @@
 
 @media (max-width: 500px) {
   .sidebar {
-    padding: 14px 12px 10px;
-    gap: 14px;
+    width: 100px;
+    padding: 14px 10px;
+    gap: 18px;
   }
 
   .app-chip {
-    padding: 12px 14px;
-    font-size: 0.88rem;
+    padding: 12px 10px;
+    font-size: 0.82rem;
   }
 
   .nav-button {
     gap: 10px;
-    padding: 10px 12px;
-    font-size: 0.88rem;
+    padding: 10px 10px;
+    font-size: 0.84rem;
   }
 }
