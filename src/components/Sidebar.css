@@ -1,121 +1,59 @@
-.sidebar {
-  width: 280px;
-  min-height: 100vh;
-  padding: 32px 24px;
-  background: radial-gradient(circle at top left, rgba(108, 99, 255, 0.22), transparent 34%),
-    linear-gradient(180deg, #04060f 0%, #0a0d16 100%);
-  border-right: 1px solid rgba(255, 255, 255, 0.06);
-  color: #f8fafc;
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 50;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  padding: 12px 16px 20px;
+  background: rgba(10, 12, 19, 0.95);
+  backdrop-filter: blur(16px);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.bottom-nav-button {
   display: flex;
   flex-direction: column;
-  gap: 42px;
-}
-
-.sidebar-card {
-  position: relative;
-  padding-top: 24px;
-}
-
-.app-chip {
-  position: relative;
-  display: inline-flex;
-  padding: 18px 22px;
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 28px;
-  backdrop-filter: blur(12px);
-  font-size: 0.95rem;
-  font-weight: 700;
-  line-height: 1.35;
-  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.18);
-  transform: translateX(-10px);
-}
-
-.sidebar-nav {
-  display: grid;
-  gap: 10px;
-}
-
-.nav-button {
-  width: 100%;
-  display: flex;
   align-items: center;
-  gap: 10px;
-  background: rgba(255, 255, 255, 0.04);
+  justify-content: center;
+  gap: 6px;
+  padding: 12px 8px;
+  background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 18px;
-  color: inherit;
-  padding: 14px 14px;
-  font-size: 0.98rem;
-  text-align: left;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  transition: transform 0.2s ease, background 0.2s ease;
+  border-radius: 20px;
+  color: #eef2ff;
+  font-size: 0.8rem;
+  min-height: 70px;
+  transition: transform 0.18s ease, background 0.18s ease, border-color 0.18s ease;
 }
 
-.nav-button:hover {
-  background: rgba(108, 99, 255, 0.16);
-  transform: translateX(4px);
+.bottom-nav-button:hover,
+.bottom-nav-button:focus-visible {
+  background: rgba(79, 196, 255, 0.14);
+  border-color: rgba(79, 196, 255, 0.22);
+  transform: translateY(-1px);
 }
 
-.nav-dot {
-  width: 10px;
-  height: 10px;
-  border-radius: 999px;
-  background: #8b86ff;
+.nav-icon {
+  font-size: 1.25rem;
 }
 
-@media (max-width: 900px) {
-  .sidebar {
-    width: 140px;
-    min-height: 100vh;
-    border-right: 1px solid rgba(255, 255, 255, 0.06);
-    padding: 22px 12px;
-    gap: 24px;
-  }
-
-  .sidebar-card {
-    padding-top: 0;
-  }
-
-  .app-chip {
-    width: 100%;
-    justify-content: flex-start;
-    transform: translateX(0);
-    padding: 14px 12px;
-    font-size: 0.88rem;
-  }
-
-  .sidebar-nav {
-    display: grid;
-    gap: 10px;
-  }
-
-  .nav-button {
-    width: 100%;
-    padding: 12px 12px;
-    font-size: 0.88rem;
-    border-radius: 16px;
-    justify-content: flex-start;
-  }
+.nav-label {
+  line-height: 1.2;
+  text-align: center;
 }
 
-@media (max-width: 500px) {
-  .sidebar {
-    width: 120px;
-    padding: 14px 10px;
-    gap: 18px;
+@media (max-width: 580px) {
+  .bottom-nav {
+    padding: 10px 10px 16px;
+    gap: 8px;
   }
 
-  .app-chip {
-    padding: 12px 10px;
-    font-size: 0.82rem;
-  }
-
-  .nav-button {
-    gap: 10px;
-    padding: 10px 10px;
-    font-size: 0.84rem;
+  .bottom-nav-button {
+    font-size: 0.75rem;
+    min-height: 64px;
+    padding: 10px 6px;
   }
 }

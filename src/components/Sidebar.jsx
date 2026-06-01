@@ -1,27 +1,21 @@
 import './Sidebar.css';
 
 const NAV = [
-  { id: 'nutrition', label: 'Nutrition' },
-  { id: 'explore', label: 'Explorer' },
-  { id: 'library', label: 'Bibliothèque' },
-  { id: 'settings', label: 'Préférences' }
+  { id: 'nutrition', label: 'Nutrition', icon: '🍎' },
+  { id: 'explore', label: 'Explorer', icon: '🔎' },
+  { id: 'library', label: 'Bibliothèque', icon: '📚' },
+  { id: 'settings', label: 'Préférences', icon: '⚙️' }
 ];
 
 export default function Sidebar() {
   return (
-    <aside className="sidebar">
-      <div className="sidebar-card">
-        <div className="app-chip">FitTrack Nutrition</div>
-      </div>
-
-      <nav className="sidebar-nav">
-        {NAV.map((item) => (
-          <button key={item.id} className="nav-button" type="button">
-            <span className="nav-dot" />
-            {item.label}
-          </button>
-        ))}
-      </nav>
-    </aside>
+    <nav className="bottom-nav">
+      {NAV.map((item) => (
+        <button key={item.id} className="bottom-nav-button" type="button">
+          <span className="nav-icon" aria-hidden="true">{item.icon}</span>
+          <span className="nav-label">{item.label}</span>
+        </button>
+      ))}
+    </nav>
   );
 }
