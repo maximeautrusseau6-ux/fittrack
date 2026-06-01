@@ -40,14 +40,17 @@
   width: 100%;
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 10px;
   background: rgba(255, 255, 255, 0.04);
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 18px;
   color: inherit;
-  padding: 16px 18px;
+  padding: 14px 14px;
   font-size: 0.98rem;
   text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
   transition: transform 0.2s ease, background 0.2s ease;
 }
 
@@ -65,7 +68,7 @@
 
 @media (max-width: 900px) {
   .sidebar {
-    width: 120px;
+    width: 140px;
     min-height: 100vh;
     border-right: 1px solid rgba(255, 255, 255, 0.06);
     padding: 22px 12px;
@@ -100,7 +103,7 @@
 
 @media (max-width: 500px) {
   .sidebar {
-    width: 100px;
+    width: 120px;
     padding: 14px 10px;
     gap: 18px;
   }
