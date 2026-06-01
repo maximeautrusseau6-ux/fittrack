@@ -49,7 +49,7 @@ export default function ExerciseEditor({ open, initialExercise, onClose, onSave 
 
   const handleSave = () => {
     if (!initialExercise) return;
-    onSave?.({
+    const payload = {
       ...initialExercise,
       name: String(name || 'Exercice').trim(),
       sets: safeArray(sets).map((serie, index) => ({
@@ -60,7 +60,9 @@ export default function ExerciseEditor({ open, initialExercise, onClose, onSave 
         completed: Boolean(serie.completed),
         createdAt: serie.createdAt || new Date().toISOString()
       }))
-    });
+    };
+    onSave?.(payload);
+    onClose?.();
   };
 
   return (

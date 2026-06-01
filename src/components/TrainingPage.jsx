@@ -250,15 +250,18 @@ export default function TrainingPage({ setNavHidden }) {
   };
 
   const openExerciseEditor = (sessionId, exercise) => {
-    if (!sessionId || !exercise) return;
+    const validSessionId = sessionId || selectedSessionId;
+    if (!validSessionId || !exercise) return;
     setEditingExercise(normalizeExercise(exercise));
-    setEditingExerciseSessionId(sessionId);
+    setEditingExerciseSessionId(validSessionId);
     setExerciseEditorOpen(true);
   };
 
   const saveExercise = (updatedExercise) => {
-    if (!editingExerciseSessionId || !updatedExercise) return;
-    updateSession(editingExerciseSessionId, (session) => ({
+    const sessionId = editingExerciseSessionId || selectedSessionId;
+    if (!sessionId || !updatedExercise) return;
+
+    updateSession(sessionId, (session) => ({
       ...session,
       updatedAt: new Date().toISOString(),
       exercises: safeArray(session.exercises).map((exercise) =>
