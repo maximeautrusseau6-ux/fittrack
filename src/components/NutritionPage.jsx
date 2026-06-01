@@ -5,6 +5,7 @@ import MacroCard from './MacroCard.jsx';
 import MealDrawer from './MealDrawer.jsx';
 import CreatineTracker from './CreatineTracker.jsx';
 import GoalsModal from './GoalsModal.jsx';
+import BottomNav from './Sidebar.jsx';
 
 const STORAGE_KEY_DATA = 'fittrack_nutrition_data';
 const STORAGE_KEY_GOALS = 'fittrack_nutrition_goals';
@@ -117,6 +118,32 @@ export default function NutritionPage() {
       entry.creatineTaken
   ).length;
 
+  const computeStreak = () => {
+    let streak = 0;
+    let current = new Date(selectedDate);
+
+    while (true) {
+      const key = formatDateKey(current);
+      const entry = nutritionData[key];
+      if (
+        !entry ||
+        entry.calories < goals.calories ||
+        entry.protein < goals.protein ||
+        entry.carbs < goals.carbs ||
+        entry.fat < goals.fat ||
+        !entry.creatineTaken
+      ) {
+        break;
+      }
+      streak += 1;
+      current.setDate(current.getDate() - 1);
+    }
+
+    return streak;
+  };
+
+  const streakCount = computeStreak();
+
   const caloriesProgress = clampPercent((dayData.calories / goals.calories) * 100);
   const proteinProgress = clampPercent((dayData.protein / goals.protein) * 100);
   const carbsProgress = clampPercent((dayData.carbs / goals.carbs) * 100);
@@ -179,7 +206,7 @@ export default function NutritionPage() {
         <div>
           <p className="section-label">Nutrition</p>
           <h1>Suivi journalier</h1>
-          <p className="flame-counter">🔥 {totalFlames} flamme{totalFlames > 1 ? 's' : ''} accumulée{totalFlames > 1 ? 's' : ''}</p>
+          <p className="flame-counter">🔥 Série actuelle : {streakCount} jour{streakCount > 1 ? 's' : ''}</p>
         </div>
         <button className="button button--primary" onClick={() => setDrawerOpen(true)}>
           Ajouter un repas
@@ -266,6 +293,7 @@ export default function NutritionPage() {
       />
 
       <GoalsModal open={goalsOpen} goals={goals} onSave={saveGoals} onClose={() => setGoalsOpen(false)} />
+      <BottomNav hidden={drawerOpen || goalsOpen} />
     </div>
   );
 }

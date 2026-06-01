@@ -1,4 +1,3 @@
-import BottomNav from './components/Sidebar.jsx';
 import NutritionPage from './components/NutritionPage.jsx';
 import './App.css';
 
@@ -8,7 +7,6 @@ export default function App() {
       <main className="app-main">
         <NutritionPage />
       </main>
-      <BottomNav />
     </div>
   );
 }

@@ -7,9 +7,9 @@ const NAV = [
   { id: 'settings', label: 'Préférences', icon: '⚙️' }
 ];
 
-export default function Sidebar() {
+export default function Sidebar({ hidden }) {
   return (
-    <nav className="bottom-nav">
+    <nav className={`bottom-nav${hidden ? ' bottom-nav--hidden' : ''}`} aria-hidden={hidden}>
       {NAV.map((item) => (
         <button key={item.id} className="bottom-nav-button" type="button">
           <span className="nav-icon" aria-hidden="true">{item.icon}</span>

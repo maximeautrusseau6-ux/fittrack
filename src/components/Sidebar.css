@@ -12,12 +12,19 @@
   backdrop-filter: blur(18px);
   border-top: 1px solid rgba(255, 255, 255, 0.08);
   pointer-events: auto;
+  transition: transform 0.28s ease, opacity 0.28s ease;
 }
 
 .bottom-nav::after {
   content: '';
   position: absolute;
   inset: 0;
+  pointer-events: none;
+}
+
+.bottom-nav--hidden {
+  transform: translateY(120%);
+  opacity: 0;
   pointer-events: none;
 }
 
