@@ -69,10 +69,51 @@
     min-height: auto;
     border-right: none;
     border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-    padding: 22px;
+    padding: 16px 16px 12px;
+    flex-direction: column;
+    gap: 18px;
+  }
+
+  .sidebar-card {
+    padding-top: 0;
   }
 
   .app-chip {
+    width: 100%;
+    justify-content: center;
     transform: translateX(0);
+    padding: 14px 16px;
+    font-size: 0.92rem;
+  }
+
+  .sidebar-nav {
+    display: grid;
+    gap: 10px;
+  }
+
+  .nav-button {
+    width: 100%;
+    padding: 12px 14px;
+    font-size: 0.92rem;
+    border-radius: 16px;
+    justify-content: flex-start;
+  }
+}
+
+@media (max-width: 500px) {
+  .sidebar {
+    padding: 14px 12px 10px;
+    gap: 14px;
+  }
+
+  .app-chip {
+    padding: 12px 14px;
+    font-size: 0.88rem;
+  }
+
+  .nav-button {
+    gap: 10px;
+    padding: 10px 12px;
+    font-size: 0.88rem;
   }
 }
