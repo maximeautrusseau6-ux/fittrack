@@ -1,90 +1,568 @@
 .app-shell {
   display: flex;
   min-height: 100vh;
-  background: linear-gradient(180deg, #06080f 0%, #0d1120 100%);
+  background: radial-gradient(circle at top left, rgba(108, 99, 255, 0.18), transparent 32%),
+    linear-gradient(180deg, #05070d 0%, #090b12 100%);
 }
 
 .app-main {
   flex: 1;
   min-width: 0;
-  padding: 40px;
+  padding: 32px;
   display: grid;
   place-items: center;
 }
 
-.welcome-card {
-  width: min(100%, 680px);
-  padding: 42px 46px;
-  border-radius: 32px;
-  background: rgba(15, 18, 32, 0.94);
-  box-shadow: 0 30px 90px rgba(0, 0, 0, 0.22);
-  border: 1px solid rgba(255, 255, 255, 0.06);
+.nutrition-page {
+  width: min(1100px, 100%);
+  display: grid;
+  gap: 24px;
 }
 
-.welcome-tag {
+.nutrition-header,
+.nutrition-bottom-row,
+.card-heading,
+.calendar-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.section-label {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 14px;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  background: rgba(255, 255, 255, 0.05);
+  color: #a3b0ff;
+  margin-bottom: 8px;
+}
+
+.nutrition-header h1,
+.card-heading h2,
+.drawer-header h2 {
+  margin: 0;
+  font-size: clamp(1.75rem, 2.2vw, 2.6rem);
+  line-height: 1.05;
+}
+
+.nutrition-header {
+  align-items: flex-end;
+}
+
+.button {
+  border: none;
+  border-radius: 18px;
+  padding: 14px 22px;
+  font-weight: 700;
+  transition: transform 0.18s ease, box-shadow 0.18s ease, background-color 0.18s ease;
+}
+
+.button:hover {
+  transform: translateY(-1px);
+}
+
+.button--primary {
+  background: linear-gradient(135deg, #7b73ff, #4fc4ff);
+  color: #090b12;
+  box-shadow: 0 18px 50px rgba(79, 196, 255, 0.18);
+}
+
+.button--secondary {
+  background: rgba(255, 255, 255, 0.06);
+  color: #eef2ff;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.icon-button {
+  border: none;
+  background: rgba(255, 255, 255, 0.06);
+  color: #eef2ff;
+  width: 42px;
+  height: 42px;
+  border-radius: 14px;
+  font-size: 1rem;
+}
+
+.nutrition-card,
+.macro-card,
+.summary-card,
+.meal-history-card {
+  background: rgba(15, 18, 32, 0.92);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.16);
+  border-radius: 28px;
+  padding: 28px;
+}
+
+.nutrition-calendar-card {
+  padding: 24px;
+}
+
+.calendar-title {
+  display: grid;
+  gap: 14px;
+}
+
+.calendar-label {
+  font-size: 0.85rem;
+  color: #9aa4ff;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+}
+
+.calendar-title h2 {
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+.calendar-controls {
+  display: flex;
+  gap: 10px;
+  margin-top: 18px;
+  flex-wrap: wrap;
+}
+
+.calendar-button {
+  border: none;
+  background: rgba(255, 255, 255, 0.08);
+  color: #eef2ff;
+  width: 52px;
+  height: 52px;
+  border-radius: 16px;
+  font-size: 1.3rem;
+}
+
+.calendar-input {
+  background: rgba(255, 255, 255, 0.06);
+  color: #eef2ff;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding: 14px 18px;
+  min-width: 190px;
+}
+
+.summary-card {
+  display: grid;
+  gap: 20px;
+}
+
+.summary-card .card-heading,
+.macro-card-top,
+.creatine-card .card-heading,
+.meal-history-card .card-heading {
+  align-items: center;
+}
+
+.summary-card h2,
+.macro-card h2,
+.creatine-card h2 {
+  margin: 0;
+}
+
+.summary-values {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  font-size: clamp(2rem, 5vw, 3rem);
+}
+
+.summary-values span {
+  color: #9aa4ff;
+  font-size: 1.05rem;
+}
+
+.progress-track {
+  height: 14px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #4fc4ff, #7b73ff);
+  transition: width 0.45s ease;
+}
+
+.summary-pill {
   display: inline-flex;
   padding: 10px 16px;
   border-radius: 999px;
-  color: #8b86ff;
-  background: rgba(139, 134, 255, 0.12);
-  font-size: 0.95rem;
-  margin-bottom: 24px;
-}
-
-.welcome-card h1 {
-  margin: 0;
-  font-size: clamp(2rem, 6vw, 3.2rem);
-  line-height: 1.05;
-  letter-spacing: -0.04em;
-}
-
-.welcome-text {
-  margin: 18px 0 0;
-  font-size: 1rem;
-  color: #cfd4ff;
-  max-width: 620px;
-  line-height: 1.6;
-}
-
-.status-pill {
-  display: inline-flex;
-  margin-top: 24px;
-  padding: 12px 18px;
-  border-radius: 999px;
-  background: linear-gradient(135deg, rgba(108, 99, 255, 0.2), rgba(0, 213, 255, 0.14));
-  color: #ecfdf5;
+  font-size: 0.92rem;
+  letter-spacing: 0.02em;
   font-weight: 700;
-  letter-spacing: 0.01em;
 }
 
-@media (max-width: 900px) {
+.summary-pill--green {
+  background: rgba(91, 255, 152, 0.16);
+  color: #b8ffdc;
+}
+
+.summary-pill--orange {
+  background: rgba(255, 168, 89, 0.16);
+  color: #ffd6a7;
+}
+
+.summary-pill--red {
+  background: rgba(255, 121, 131, 0.18);
+  color: #ffd6d6;
+}
+
+.macro-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.macro-card {
+  padding: 22px;
+  min-height: 180px;
+}
+
+.macro-card-top {
+  justify-content: space-between;
+}
+
+.macro-title {
+  margin: 0;
+  font-size: 0.95rem;
+  color: #9aa4ff;
+}
+
+.macro-value {
+  font-weight: 700;
+}
+
+.macro-value--green {
+  color: #b8ffdc;
+}
+
+.macro-value--orange {
+  color: #ffcb84;
+}
+
+.macro-value--red {
+  color: #ff9da7;
+}
+
+.macro-stats {
+  margin: 18px 0 0;
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  font-size: 1.3rem;
+}
+
+.macro-stats span {
+  color: #9aa4ff;
+}
+
+.macro-track {
+  margin-top: 18px;
+}
+
+.creatine-card {
+  width: 100%;
+  padding: 24px;
+}
+
+.creatine-text {
+  margin: 14px 0 0;
+  color: #b8c2ff;
+  line-height: 1.65;
+}
+
+.switch {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  width: 56px;
+  height: 32px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  inset: 0;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.12);
+  transition: background-color 0.3s ease;
+}
+
+.slider::after {
+  content: '';
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  left: 4px;
+  top: 4px;
+  border-radius: 50%;
+  background: #eef2ff;
+  transition: transform 0.3s ease;
+}
+
+.switch input:checked + .slider {
+  background: linear-gradient(135deg, #4fc4ff, #7b73ff);
+}
+
+.switch input:checked + .slider::after {
+  transform: translateX(24px);
+}
+
+.meal-history-card {
+  padding: 24px;
+}
+
+.card-heading {
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.card-heading h2 {
+  margin: 0;
+  font-size: 1.35rem;
+}
+
+.muted-text {
+  margin: 8px 0 0;
+  color: #9aa4ff;
+  max-width: 560px;
+}
+
+.meal-count {
+  color: #9aa4ff;
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.meal-list {
+  list-style: none;
+  padding: 0;
+  margin: 24px 0 0;
+  display: grid;
+  gap: 14px;
+}
+
+.meal-item {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 20px;
+  padding: 18px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}
+
+.meal-item strong {
+  display: block;
+  font-size: 1rem;
+  margin-bottom: 6px;
+}
+
+.meal-item p {
+  margin: 0;
+  color: #c8d0ff;
+  font-size: 0.95rem;
+}
+
+.meal-time {
+  color: #9aa4ff;
+  font-size: 0.92rem;
+  min-width: 72px;
+  text-align: right;
+}
+
+.empty-state {
+  margin: 22px 0 0;
+  color: #b8c2ff;
+  line-height: 1.75;
+}
+
+.drawer-overlay,
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(5, 7, 13, 0.72);
+  backdrop-filter: blur(12px);
+  display: grid;
+  place-items: end center;
+  padding: 0 12px 18px;
+  z-index: 30;
+}
+
+.drawer-panel,
+.modal-panel {
+  width: min(100%, 520px);
+  border-radius: 32px 32px 20px 20px;
+  background: rgba(10, 12, 19, 0.98);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 40px 120px rgba(0, 0, 0, 0.25);
+  padding: 28px;
+  animation: slideUp 0.35s ease;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(24px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.drawer-form {
+  display: grid;
+  gap: 18px;
+  margin-top: 18px;
+}
+
+.drawer-grid {
+  display: grid;
+  gap: 14px;
+}
+
+.drawer-grid label,
+.drawer-form label {
+  display: grid;
+  gap: 10px;
+  font-size: 0.95rem;
+  color: #c8d0ff;
+}
+
+.drawer-form input {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  padding: 14px 16px;
+  color: #eef2ff;
+}
+
+.drawer-form input:focus {
+  outline: none;
+  border-color: rgba(79, 196, 255, 0.5);
+  box-shadow: 0 0 0 4px rgba(79, 196, 255, 0.14);
+}
+
+.drawer-action {
+  width: 100%;
+  margin-top: 6px;
+}
+
+.flame-streak {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  background: radial-gradient(circle, rgba(255, 162, 94, 0.18), transparent 58%);
+  padding: 12px 16px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 160, 0, 0.2);
+}
+
+.flame-ring {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: rgba(255, 146, 0, 0.18);
+  box-shadow: 0 0 24px rgba(255, 162, 94, 0.28);
+  animation: flamePulse 1.4s ease-in-out infinite;
+}
+
+.flame-text {
+  color: #ffd8ac;
+  font-weight: 700;
+}
+
+@keyframes flamePulse {
+  0%,
+  100% {
+    transform: scale(1);
+    filter: drop-shadow(0 0 4px rgba(255, 162, 94, 0.4));
+  }
+  50% {
+    transform: scale(1.05);
+    filter: drop-shadow(0 0 12px rgba(255, 162, 94, 0.55));
+  }
+}
+
+@media (max-width: 950px) {
   .app-main {
-    padding: 20px 16px 30px;
+    padding: 24px;
   }
 
-  .welcome-card {
+  .nutrition-page {
+    gap: 20px;
+  }
+
+  .macro-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .nutrition-bottom-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .calendar-controls {
     width: 100%;
-    padding: 24px 20px;
-    border-radius: 24px;
   }
 
-  .welcome-tag {
-    padding: 8px 14px;
-    margin-bottom: 18px;
+  .calendar-button,
+  .calendar-input {
+    flex: 1;
   }
 
-  .welcome-card h1 {
-    font-size: clamp(1.75rem, 9vw, 2.8rem);
+  .drawer-panel,
+  .modal-panel {
+    width: 100%;
+    border-radius: 28px;
+    max-width: 520px;
+  }
+}
+
+@media (max-width: 640px) {
+  .app-main {
+    padding: 18px;
   }
 
-  .welcome-text {
-    margin: 16px 0 0;
-    font-size: 0.96rem;
-    max-width: 100%;
+  .nutrition-header,
+  .nutrition-bottom-row,
+  .card-heading {
+    flex-direction: column;
+    align-items: stretch;
   }
 
-  .status-pill {
-    margin-top: 20px;
-    padding: 10px 16px;
+  .button {
+    width: 100%;
+  }
+
+  .calendar-input {
+    min-width: auto;
+  }
+
+  .meal-item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .meal-time {
+    width: 100%;
+    text-align: left;
   }
 }
