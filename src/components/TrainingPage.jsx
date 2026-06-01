@@ -3,6 +3,7 @@ import SessionCard from './SessionCard.jsx';
 import SessionDrawer from './SessionDrawer.jsx';
 import ExerciseDrawer from './ExerciseDrawer.jsx';
 import SetDrawer from './SetDrawer.jsx';
+import ExerciseEditor from './ExerciseEditor.jsx';
 import RestTimer from './RestTimer.jsx';
 import TrainingStats from './TrainingStats.jsx';
 import './Training.css';
@@ -16,24 +17,68 @@ function generateId() {
   return Math.random().toString(36).slice(2, 10) + Date.now().toString(36);
 }
 
+function safeArray(value) {
+  return Array.isArray(value) ? value : [];
+}
+
+function safeNumber(value) {
+  const number = Number(value);
+  return Number.isFinite(number) && number >= 0 ? Math.round(number) : 0;
+}
+
+function normalizeSet(set = {}, index = 0) {
+  return {
+    id: String(set?.id || generateId()),
+    weight: safeNumber(set?.weight),
+    reps: safeNumber(set?.reps),
+    note: typeof set?.note === 'string' ? set.note : '',
+    completed: Boolean(set?.completed),
+    createdAt: set?.createdAt || new Date().toISOString()
+  };
+}
+
+function normalizeExercise(exercise = {}, index = 0) {
+  return {
+    id: String(exercise?.id || generateId()),
+    name: typeof exercise?.name === 'string' && exercise.name.trim() ? exercise.name.trim() : `Exercice ${index + 1}`,
+    sets: safeArray(exercise?.sets).map((set, setIndex) => normalizeSet(set, setIndex))
+  };
+}
+
+function normalizeSession(session = {}, index = 0) {
+  return {
+    id: String(session?.id || generateId()),
+    name: typeof session?.name === 'string' && session.name.trim() ? session.name.trim() : `Séance ${index + 1}`,
+    createdAt: session?.createdAt || new Date().toISOString(),
+    updatedAt: session?.updatedAt || session?.createdAt || new Date().toISOString(),
+    exercises: safeArray(session?.exercises).map((exercise, exerciseIndex) => normalizeExercise(exercise, exerciseIndex))
+  };
+}
+
+function normalizeTrainingData(value) {
+  return {
+    sessions: safeArray(value?.sessions).map((session, index) => normalizeSession(session, index))
+  };
+}
+
 function formatDateLabel(dateString) {
   const date = new Date(dateString);
   return date.toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' });
 }
 
 function computeVolume(session) {
-  return session.exercises.reduce(
+  return safeArray(session.exercises).reduce(
     (sum, exercise) =>
-      sum + exercise.sets.reduce((inner, set) => inner + set.weight * set.reps, 0),
+      sum + safeArray(exercise.sets).reduce((inner, set) => inner + safeNumber(set.weight) * safeNumber(set.reps), 0),
     0
   );
 }
 
 function computeProgress(session) {
-  const totalSets = session.exercises.reduce((sum, exercise) => sum + exercise.sets.length, 0);
+  const totalSets = safeArray(session.exercises).reduce((sum, exercise) => sum + safeArray(exercise.sets).length, 0);
   if (!totalSets) return 0;
-  const completedSets = session.exercises.reduce(
-    (sum, exercise) => sum + exercise.sets.filter((set) => set.completed).length,
+  const completedSets = safeArray(session.exercises).reduce(
+    (sum, exercise) => sum + safeArray(exercise.sets).filter((set) => set.completed).length,
     0
   );
   return Math.round((completedSets / totalSets) * 100);
@@ -48,6 +93,9 @@ export default function TrainingPage({ setNavHidden }) {
   const [activeSessionForExercise, setActiveSessionForExercise] = useState(null);
   const [setDrawerOpen, setSetDrawerOpen] = useState(false);
   const [activeExercise, setActiveExercise] = useState(null);
+  const [exerciseEditorOpen, setExerciseEditorOpen] = useState(false);
+  const [editingExercise, setEditingExercise] = useState(null);
+  const [editingExerciseSessionId, setEditingExerciseSessionId] = useState(null);
   const [restTimerRunning, setRestTimerRunning] = useState(false);
   const [restSeconds, setRestSeconds] = useState(DEFAULT_REST_SECONDS);
   const [restMessage, setRestMessage] = useState('');
@@ -56,22 +104,29 @@ export default function TrainingPage({ setNavHidden }) {
     const storedValue = localStorage.getItem(STORAGE_KEY);
     if (storedValue) {
       try {
-        setTrainingData(JSON.parse(storedValue));
+        const parsed = JSON.parse(storedValue);
+        setTrainingData(normalizeTrainingData(parsed));
+        return;
       } catch (error) {
         console.warn('Impossible de lire les données d’entraînement', error);
       }
     }
+    setTrainingData(createNewData());
   }, []);
 
   useEffect(() => {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(trainingData));
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(trainingData));
+    } catch (error) {
+      console.warn('Impossible de sauvegarder les données d’entraînement', error);
+    }
   }, [trainingData]);
 
   useEffect(() => {
     if (setNavHidden) {
-      setNavHidden(sessionDrawerOpen || exerciseDrawerOpen || setDrawerOpen || restTimerRunning);
+      setNavHidden(sessionDrawerOpen || exerciseDrawerOpen || setDrawerOpen || exerciseEditorOpen || restTimerRunning);
     }
-  }, [sessionDrawerOpen, exerciseDrawerOpen, setDrawerOpen, restTimerRunning, setNavHidden]);
+  }, [sessionDrawerOpen, exerciseDrawerOpen, setDrawerOpen, exerciseEditorOpen, restTimerRunning, setNavHidden]);
 
   useEffect(() => {
     if (!restTimerRunning) return undefined;
@@ -88,18 +143,18 @@ export default function TrainingPage({ setNavHidden }) {
     return () => clearInterval(interval);
   }, [restTimerRunning]);
 
-  const sessions = trainingData.sessions;
+  const sessions = safeArray(trainingData.sessions);
   const selectedSession = sessions.find((session) => session.id === selectedSessionId) || null;
 
   const historyByExercise = useMemo(() => {
     return sessions.reduce((map, session) => {
-      session.exercises.forEach((exercise) => {
+      safeArray(session.exercises).forEach((exercise) => {
         const existing = map[exercise.name] || null;
         if (!existing || new Date(session.updatedAt || session.createdAt) > new Date(existing.date)) {
           map[exercise.name] = {
             date: session.updatedAt || session.createdAt,
-            weight: exercise.sets[exercise.sets.length - 1]?.weight || 0,
-            reps: exercise.sets[exercise.sets.length - 1]?.reps || 0
+            weight: safeNumber(safeArray(exercise.sets)[exercise.sets.length - 1]?.weight),
+            reps: safeNumber(safeArray(exercise.sets)[exercise.sets.length - 1]?.reps)
           };
         }
       });
@@ -109,11 +164,14 @@ export default function TrainingPage({ setNavHidden }) {
 
   const stats = useMemo(() => {
     const completedSessions = sessions.length;
-    const totalExercises = sessions.reduce((sum, session) => sum + session.exercises.length, 0);
-    const totalSets = sessions.reduce((sum, session) => sum + session.exercises.reduce((s, exercise) => s + exercise.sets.length, 0), 0);
+    const totalExercises = sessions.reduce((sum, session) => sum + safeArray(session.exercises).length, 0);
+    const totalSets = sessions.reduce(
+      (sum, session) => sum + safeArray(session.exercises).reduce((sub, exercise) => sub + safeArray(exercise.sets).length, 0),
+      0
+    );
     const totalVolume = sessions.reduce((sum, session) => sum + computeVolume(session), 0);
     const favoriteExercise = sessions
-      .flatMap((session) => session.exercises.map((exercise) => exercise.name))
+      .flatMap((session) => safeArray(session.exercises).map((exercise) => exercise.name))
       .reduce((freq, name) => ({ ...freq, [name]: (freq[name] || 0) + 1 }), {});
     const favoriteName = Object.keys(favoriteExercise).sort((a, b) => favoriteExercise[b] - favoriteExercise[a])[0] || '—';
 
@@ -126,6 +184,14 @@ export default function TrainingPage({ setNavHidden }) {
     };
   }, [sessions]);
 
+  const updateSession = (sessionId, callback) => {
+    setTrainingData((prev) => ({
+      sessions: safeArray(prev.sessions).map((session) =>
+        session.id === sessionId ? callback(session) : session
+      )
+    }));
+  };
+
   const addSession = (sessionName) => {
     const newSession = {
       id: generateId(),
@@ -134,7 +200,7 @@ export default function TrainingPage({ setNavHidden }) {
       updatedAt: new Date().toISOString(),
       exercises: []
     };
-    setTrainingData((prev) => ({ sessions: [newSession, ...prev.sessions] }));
+    setTrainingData((prev) => ({ sessions: [newSession, ...safeArray(prev.sessions)] }));
     setSelectedSessionId(newSession.id);
     setEditingSession(null);
     setSessionDrawerOpen(false);
@@ -142,12 +208,10 @@ export default function TrainingPage({ setNavHidden }) {
 
   const renameSession = (sessionName) => {
     if (!editingSession) return;
-    setTrainingData((prev) => ({
-      sessions: prev.sessions.map((session) =>
-        session.id === editingSession.id
-          ? { ...session, name: sessionName.trim() || session.name, updatedAt: new Date().toISOString() }
-          : session
-      )
+    updateSession(editingSession.id, (session) => ({
+      ...session,
+      name: sessionName.trim() || session.name,
+      updatedAt: new Date().toISOString()
     }));
     setEditingSession(null);
     setSessionDrawerOpen(false);
@@ -155,7 +219,7 @@ export default function TrainingPage({ setNavHidden }) {
 
   const removeSession = (sessionId) => {
     setTrainingData((prev) => ({
-      sessions: prev.sessions.filter((session) => session.id !== sessionId)
+      sessions: safeArray(prev.sessions).filter((session) => session.id !== sessionId)
     }));
     if (selectedSessionId === sessionId) {
       setSelectedSessionId(null);
@@ -174,88 +238,82 @@ export default function TrainingPage({ setNavHidden }) {
 
   const addExercise = (exerciseName) => {
     if (!activeSessionForExercise) return;
-    setTrainingData((prev) => ({
-      sessions: prev.sessions.map((session) =>
-        session.id === activeSessionForExercise
-          ? {
-              ...session,
-              updatedAt: new Date().toISOString(),
-              exercises: [
-                ...session.exercises,
-                {
-                  id: generateId(),
-                  name: exerciseName.trim() || `Exercice ${session.exercises.length + 1}`,
-                  sets: []
-                }
-              ]
-            }
-          : session
-      )
+    updateSession(activeSessionForExercise, (session) => ({
+      ...session,
+      updatedAt: new Date().toISOString(),
+      exercises: [
+        ...safeArray(session.exercises),
+        normalizeExercise({ name: exerciseName.trim() })
+      ]
     }));
     setExerciseDrawerOpen(false);
   };
 
+  const openExerciseEditor = (sessionId, exercise) => {
+    if (!sessionId || !exercise) return;
+    setEditingExercise(normalizeExercise(exercise));
+    setEditingExerciseSessionId(sessionId);
+    setExerciseEditorOpen(true);
+  };
+
+  const saveExercise = (updatedExercise) => {
+    if (!editingExerciseSessionId || !updatedExercise) return;
+    updateSession(editingExerciseSessionId, (session) => ({
+      ...session,
+      updatedAt: new Date().toISOString(),
+      exercises: safeArray(session.exercises).map((exercise) =>
+        exercise.id === updatedExercise.id ? normalizeExercise(updatedExercise) : exercise
+      )
+    }));
+    setExerciseEditorOpen(false);
+    setEditingExercise(null);
+    setEditingExerciseSessionId(null);
+  };
+
+  const closeExerciseEditor = () => {
+    setExerciseEditorOpen(false);
+    setEditingExercise(null);
+    setEditingExerciseSessionId(null);
+  };
+
   const openSetDrawer = (exercise) => {
+    if (!exercise) return;
     setActiveExercise(exercise);
     setSetDrawerOpen(true);
   };
 
   const addSet = ({ weight, reps, note }) => {
     if (!selectedSession || !activeExercise) return;
-    setTrainingData((prev) => ({
-      sessions: prev.sessions.map((session) =>
-        session.id === selectedSession.id
+    updateSession(selectedSession.id, (session) => ({
+      ...session,
+      updatedAt: new Date().toISOString(),
+      exercises: safeArray(session.exercises).map((exercise) =>
+        exercise.id === activeExercise.id
           ? {
-              ...session,
-              updatedAt: new Date().toISOString(),
-              exercises: session.exercises.map((exercise) =>
-                exercise.id === activeExercise.id
-                  ? {
-                      ...exercise,
-                      sets: [
-                        ...exercise.sets,
-                        {
-                          id: generateId(),
-                          weight,
-                          reps,
-                          note,
-                          completed: false,
-                          createdAt: new Date().toISOString()
-                        }
-                      ]
-                    }
-                  : exercise
-              )
+              ...exercise,
+              sets: [
+                ...safeArray(exercise.sets),
+                normalizeSet({ weight, reps, note })
+              ]
             }
-          : session
+          : exercise
       )
     }));
     setSetDrawerOpen(false);
   };
 
   const toggleSetCompletion = (sessionId, exerciseId, setId) => {
-    setTrainingData((prev) => ({
-      sessions: prev.sessions.map((session) =>
-        session.id === sessionId
+    updateSession(sessionId, (session) => ({
+      ...session,
+      exercises: safeArray(session.exercises).map((exercise) =>
+        exercise.id === exerciseId
           ? {
-              ...session,
-              exercises: session.exercises.map((exercise) =>
-                exercise.id === exerciseId
-                  ? {
-                      ...exercise,
-                      sets: exercise.sets.map((set) =>
-                        set.id === setId
-                          ? {
-                              ...set,
-                              completed: !set.completed
-                            }
-                          : set
-                      )
-                    }
-                  : exercise
+              ...exercise,
+              sets: safeArray(exercise.sets).map((set) =>
+                set.id === setId ? { ...set, completed: !set.completed } : set
               )
             }
-          : session
+          : exercise
       )
     }));
     setRestSeconds(DEFAULT_REST_SECONDS);
@@ -269,7 +327,7 @@ export default function TrainingPage({ setNavHidden }) {
   };
 
   const completedCount = selectedSession
-    ? selectedSession.exercises.reduce((sum, exercise) => sum + exercise.sets.filter((set) => set.completed).length, 0)
+    ? safeArray(selectedSession.exercises).reduce((sum, exercise) => sum + safeArray(exercise.sets).filter((set) => set.completed).length, 0)
     : 0;
 
   return (
@@ -316,7 +374,7 @@ export default function TrainingPage({ setNavHidden }) {
             <div>
               <span className="session-badge">Séance active</span>
               <h2>{selectedSession.name}</h2>
-              <p>{formatDateLabel(selectedSession.createdAt)} · {selectedSession.exercises.length} exercices</p>
+              <p>{formatDateLabel(selectedSession.createdAt)} · {safeArray(selectedSession.exercises).length} exercices</p>
             </div>
             <button className="secondary-button" type="button" onClick={() => openSessionEditor(selectedSession)}>
               Renommer
@@ -340,31 +398,29 @@ export default function TrainingPage({ setNavHidden }) {
               className="secondary-button"
               type="button"
               onClick={() => {
-                const firstExercise = selectedSession.exercises[0];
+                const firstExercise = safeArray(selectedSession.exercises)[0];
                 if (firstExercise) {
                   setActiveExercise(firstExercise);
                   setSetDrawerOpen(true);
                 }
               }}
-              disabled={!selectedSession.exercises.length}
+              disabled={!safeArray(selectedSession.exercises).length}
             >
               Ajouter une série
             </button>
           </div>
 
           <div className="exercise-list">
-            {selectedSession.exercises.length ? (
-              selectedSession.exercises.map((exercise) => (
+            {safeArray(selectedSession.exercises).length ? (
+              safeArray(selectedSession.exercises).map((exercise) => (
                 <ExerciseCard
                   key={exercise.id}
                   exercise={exercise}
                   sessionId={selectedSession.id}
                   history={historyByExercise[exercise.name]}
                   onToggleComplete={(setId) => toggleSetCompletion(selectedSession.id, exercise.id, setId)}
-                  onAddSet={() => {
-                    setActiveExercise(exercise);
-                    setSetDrawerOpen(true);
-                  }}
+                  onAddSet={() => openSetDrawer(exercise)}
+                  onEdit={() => openExerciseEditor(selectedSession.id, exercise)}
                 />
               ))
             ) : (
@@ -408,6 +464,13 @@ export default function TrainingPage({ setNavHidden }) {
         open={exerciseDrawerOpen}
         onClose={() => setExerciseDrawerOpen(false)}
         onSave={addExercise}
+      />
+
+      <ExerciseEditor
+        open={exerciseEditorOpen}
+        initialExercise={editingExercise}
+        onClose={closeExerciseEditor}
+        onSave={saveExercise}
       />
 
       <SetDrawer

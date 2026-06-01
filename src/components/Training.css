@@ -244,6 +244,102 @@
   flex-wrap: wrap;
 }
 
+.exercise-card-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.exercise-sheet-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 240;
+  background: rgba(5, 8, 18, 0.85);
+  backdrop-filter: blur(12px);
+  display: grid;
+  place-items: end center;
+  padding: 0 16px 12px;
+}
+
+.exercise-sheet-panel {
+  width: min(620px, 100%);
+  max-height: 82vh;
+  border-radius: 30px 30px 16px 16px;
+  background: linear-gradient(180deg, rgba(11, 18, 36, 0.98), rgba(7, 16, 31, 0.99));
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 22px 20px 20px;
+  box-shadow: 0 24px 68px rgba(0, 0, 0, 0.32);
+  overflow: hidden;
+}
+
+.exercise-sheet-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 18px;
+}
+
+.exercise-sheet-table {
+  display: grid;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.exercise-sheet-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr auto;
+  gap: 10px;
+  align-items: center;
+}
+
+.exercise-sheet-row--header {
+  color: #9dacd8;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.exercise-sheet-row input {
+  width: 100%;
+  min-width: 0;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  padding: 12px 14px;
+  background: rgba(255, 255, 255, 0.05);
+  color: #fff;
+}
+
+.series-label {
+  padding: 12px 14px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.05);
+  color: #cfd4ff;
+  font-weight: 600;
+}
+
+.trash-button {
+  width: 42px;
+  height: 42px;
+  border: none;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.08);
+  color: #ff8fa8;
+  font-size: 1.1rem;
+  cursor: pointer;
+}
+
+.exercise-sheet-add {
+  width: 100%;
+  margin-top: 6px;
+}
+
+.exercise-sheet-actions {
+  margin-top: 22px;
+  justify-content: space-between;
+}
+
 .set-row {
   display: grid;
   grid-template-columns: 1fr auto;
