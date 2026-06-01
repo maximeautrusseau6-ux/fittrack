@@ -10,9 +10,9 @@
   flex: 1;
   min-width: 0;
   padding: 32px;
-  padding-bottom: 110px;
+  padding-bottom: max(160px, calc(env(safe-area-inset-bottom) + 120px));
   display: grid;
-  place-items: center;
+  place-items: start center;
 }
 
 .nutrition-page {
