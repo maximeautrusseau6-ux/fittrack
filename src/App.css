@@ -10,7 +10,7 @@
   flex: 1;
   min-width: 0;
   padding: 32px;
-  padding-bottom: max(160px, calc(env(safe-area-inset-bottom) + 120px));
+  padding-bottom: max(220px, calc(env(safe-area-inset-bottom) + 180px));
   display: grid;
   place-items: start center;
 }
@@ -407,6 +407,10 @@
 .drawer-panel,
 .modal-panel {
   width: min(100%, 520px);
+  max-height: 92vh;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-y;
   border-radius: 32px 32px 20px 20px;
   background: rgba(10, 12, 19, 0.98);
   border: 1px solid rgba(255, 255, 255, 0.08);
@@ -451,6 +455,14 @@
   border-radius: 16px;
   padding: 14px 16px;
   color: #eef2ff;
+}
+
+.button,
+.bottom-nav-button,
+.calendar-button,
+.icon-button,
+.drawer-form input {
+  touch-action: manipulation;
 }
 
 .drawer-form input:focus {
